@@ -14,7 +14,7 @@ const install = (Vue, vm) => {
 	// 请求拦截，配置Token等参数
 	Vue.prototype.$u.http.interceptor.request = (config) => {
 		config.header.Token = uni.getStorageSync("token");
-		//config.header["Content-type"] ="multipart/form-data;charset=utf-8;boundary=1111";
+		config.header["Content-type"] ="application/x-www-form-urlencoded";
 		// 方式一，存放在vuex的token，假设使用了uView封装的vuex方式，见：https://uviewui.com/components/globalVariable.html
 		// config.header.token = vm.token;
 		

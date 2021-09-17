@@ -91,6 +91,44 @@
       return {
         timestamp: 3400,
       };
+    },
+    methods:{
+      getBallConfigFunc(){
+         uni.$u.api.getBallconfig({}).then(ret=>{
+            if(ret && ret.code == 1){
+
+            }else{
+
+            }
+         })
+      },
+      getBallzjlistFunc(){
+        uni.$u.api.getBallzjlist({}).then(ret=>{
+          if(ret && ret.code == 1){
+
+          }else{
+
+          }
+        })
+      },
+      getMyballlistFunc(){
+        uni.$u.api.getMyballlist({}).then(ret=>{
+          if(ret && ret.code == 1){
+
+          }else{
+
+          }
+        })
+      },
+      setMyballFunc(){
+        uni.$u.api.setMyball({}).then(ret=>{
+          if(ret && ret.code == 1){
+
+          }else{
+
+          }
+        })
+      }
     }
   }
 </script>

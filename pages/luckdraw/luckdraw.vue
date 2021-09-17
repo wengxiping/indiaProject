@@ -31,8 +31,8 @@
         <text class="text">我的中奖记录</text>
       </view>
       <view class="record-list">
-        <view class="cell u-line-1" v-for="(item, index) in 2" :key="index">
-          <text>恭喜46546*46546，用户获得70000卢比大奖</text>
+        <view class="cell u-line-1" v-for="(item, index) in mydrawlist" :key="index">
+          <text>{{item.username}} {{item.zjscore}}</text>
         </view>
       </view>
     </view>
@@ -43,8 +43,8 @@
         <text class="text">中奖记录</text>
       </view>
       <view class="record-list record-gray">
-        <view class="cell u-line-1" v-for="(item, index) in 5" :key="index">
-          <text>恭喜46546*46546，用户获得70000卢比大奖</text>
+        <view class="cell u-line-1" v-for="(item, index) in drawuserList" :key="index">
+          <text>{{item.username}} {{item.zjscore}}</text>
         </view>
       </view>
     </view>
@@ -87,7 +87,16 @@
             fontColor: '#6300FF',
             fontSize: '14px'
           },
+          zj_message:{level:'',zjmoney:''},
+          cjsum:0,
+          allmoney:0,//奖金池
+          mydrawlist:[],
+          drawuserList:[]
         }
+      },
+      onload(){
+        this.getDrawinfoFunc();
+        this.getMydrawInfoFunc();
       },
       methods: {
         startCallBack () {
@@ -101,6 +110,40 @@
           uni.showModal({
             content: `恭喜你抽中${prize.title}卢比`,
             showCancel: false
+          })
+        },
+        //抽奖
+        getStartDrawtFunc(){
+          uni.$u.api.getStartDrawt({yesmoney:1}).then(ret=>{
+             if (ret && ret.code == 1)
+             {
+               this.zj_message = ret.data
+             }else{
+               uni.$u.api.toast(uni.$u.msg.requestTimeOut);
+             }
+          })
+        },
+        getDrawinfoFunc()
+        {
+          uni.$u.api.getDrawinfo().then(ret=>{
+                if(ret && ret.code == 1)
+                {
+                  this.drawuserList = ret.data.drawuser
+                  this.allmoney = ret.data.allmoney
+                  this.prizes = ret.data.drawconfig
+                }else{
+                  uni.$u.api.toast(uni.$u.msg.requestTimeOut);
+                }
+          })
+        },
+        getMydrawInfoFunc(){
+          uni.$u.api.getMydrawinfo().then(ret=>{
+             if(ret && ret.code == 1){
+               this.cjsum = ret.data.cjsum
+               this.mydrawlist = ret.data.mydrawlist
+             }else{
+               uni.$u.api.toast(uni.$u.msg.requestTimeOut);
+             }
           })
         }
       }

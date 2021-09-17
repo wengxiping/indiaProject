@@ -27,8 +27,8 @@
         <text class="text">任务大厅</text>
       </view>
       <view class="rwlist">
-        <view class="rw-img" v-for="(item, index) in 4" :key="index">
-          <image :src="`/static/g${index+1}.png`" mode="scaleToFill" class="image"></image>
+        <view class="rw-img" v-for="(item, index) in taskList" :key="index" @tap="link_href(item.taskurl)">
+          <image :src="item.taskpic" mode="scaleToFill" class="image"></image>
         </view>
       </view>
     </view>
@@ -41,20 +41,20 @@
       <view class="viplist">
         <view class="vipm1">
           <text class="v-title">新会员</text>
-          <view class="im-cell" v-for="(item, index) in 4" :key="index">
-            <text class="text">恭喜5154***4784 成为国王</text>
+          <view class="im-cell" v-for="(item, index) in reguserList" :key="index">
+            <text class="text">恭喜{{item.username}}新会员</text>
           </view>
         </view>
         <view class="vipm2">
           <text class="v-title">转盘中奖</text>
-          <view class="im-cell" v-for="(item, index) in 4" :key="index">
-            <text class="text">恭喜5154***4784 成为国王</text>
+          <view class="im-cell" v-for="(item, index) in drawuserList" :key="index">
+            <text class="text">恭喜{{item.username}} 中奖</text>
           </view>
         </view>
         <view class="vipm3">
           <text class="v-title">红蓝中奖</text>
-          <view class="im-cell" v-for="(item, index) in 4" :key="index">
-            <text class="text">恭喜5154***4784 成为国王</text>
+          <view class="im-cell" v-for="(item, index) in balluserList" :key="index">
+            <text class="text">恭喜{{item.username}} 中奖</text>
           </view>
         </view>
       </view>
@@ -113,17 +113,77 @@
             title: '今天离开次数',
             content: '200 shan'
           }
-        ]
-			}
-		},
+        ],
+        reguserList:[],
+        drawuserList:[],
+        balluserList:[],
+        taskList:[]
+	}
+},
 		onLoad() {
-             //获取公告
-			 uni.$u.api.getNewNotice().then(ret=>{
-				 console.log(ret)
-			 })
+            this.getNewNoticeFun();
+            this.getUserInfoFunc();
+            this.getRtuserdateFunc();
+            this.getTaskFunc();
 		},
 		methods: {
+          getNewNoticeFun(){
+            uni.$u.api.getNewNotice().then(ret=>{
+              if(ret && ret.code == 1)
+              {
 
+              }else{
+                uni.$u.toast(uni.$u.msg.requestTimeOut)
+              }
+            })
+          },
+          getUserInfoFunc()
+          {
+            uni.$u.api.getuserinfo().then(ret=>{
+              if(ret && ret.code == 1)
+              {
+                this.gridList[0].content = ret.data.kymoney
+                this.gridList[1].content = ret.data.lastday
+                this.gridList[2].content = ret.data.today
+                this.gridList[3].content = ret.data.weekmoney
+                this.gridList[4].content = ret.data.monthmoney
+                this.gridList[5].content = ret.data.lastmmoney
+                this.gridList[6].content = ret.data.fullmoney
+                this.gridList[7].content = ret.data.tasktimeday
+                this.gridList[8].content = ret.data.lksumday
+              }else{
+                uni.$u.toast(uni.$u.msg.requestTimeOut)
+              }
+            })
+          },
+          getRtuserdateFunc()
+          {
+            uni.$u.api.getRtuserdate().then(ret=>{
+              if(ret && ret.code == 1)
+              {
+                this.reguserList = ret.data.reguser
+                this.drawuserList = ret.data.drawuser
+                this.balluserList = ret.data.balluser
+              }else{
+                uni.$u.toast(uni.$u.msg.requestTimeOut)
+              }
+            })
+          },
+          getTaskFunc()
+          {
+            uni.$u.api.getTasklist().then(ret=>{
+              if(ret && ret.code == 1)
+              {
+                this.taskList = ret.data
+              }else{
+                uni.$u.toast(uni.$u.msg.requestTimeOut)
+              }
+            })
+          },
+          link_href(url)
+          {
+            uni.$u.toast(url)
+          }
 		}
 	}
 </script>

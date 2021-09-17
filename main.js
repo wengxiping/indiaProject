@@ -4,9 +4,9 @@ import Vue from 'vue'
 // main.js
 import uView from "uview-ui";
 Vue.use(uView);
-import {router,RouterMount} from './router'  
+import {router,RouterMount} from './router'
 Vue.use(router)
-import minx from './minx.js'  
+import minx from './minx.js'
 Vue.mixin(minx)
 
 Vue.config.productionTip = false
@@ -21,6 +21,8 @@ Vue.use(httpInterceptor, app);
 // http接口API抽离，免于写url或者一些固定的参数
 import httpApi from '@/request/http.api.js';
 Vue.use(httpApi, app);
+import noticeMessage from "@/const"
+Vue.use(noticeMessage,app)
 // #ifdef H5
 RouterMount(app,router,'#app')
 // #endif

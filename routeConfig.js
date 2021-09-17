@@ -105,7 +105,7 @@ export default [
                 return {name: name};
             }
             return {
-                name: "404"
+                name: "index"
             }
         }
     }
