@@ -1,0 +1,111 @@
+<template>
+  <view class="page-content">
+	  <u-navbar back-text="充值记录" title="" :is-fixed="true" :background="background" :back-text-style='backStyle' back-icon-color='#000'>
+	  </u-navbar>
+	  <view class="content-list">
+		  <view class="content-item" v-for="(item,index) in dataList" :key="index">
+			 <view class="content-item-margin" v-if="index==0"></view>
+			 <view class="content-item-content">
+				 <view class="content-item-content-block">
+					 <view class="content-item-content-block-top">
+						 <view class="left">充值</view>
+						 <view class="right">+10000</view>
+					 </view>
+					 <view class="content-item-content-block-bottom">
+						 <view class="left">2021.08.21 14:22:22</view>
+						 <view class="right">余额：20000</view>
+					 </view>
+				 </view>
+			 </view>
+		  </view>
+		  
+		  <u-loadmore :status="status" />
+	  </view>
+  </view>
+</template>
+
+<script>
+	export default {
+		data(){
+			return {
+				background:{
+					background:"#FFFFFF"
+				},
+				backStyle:{
+					color:"#000"
+				},
+				dataList:[{},{},{},{},{},{},{},{},{},{},{},{}],
+				status: 'loadmore',
+			}
+		},
+		onReachBottom(){
+			console.log('here')
+		}
+	}
+</script>
+
+<style scoped lang="scss">
+.page-content{
+	width: 100vw;height: 100vh;position: relative;
+	.page-content-bg{
+		width: 100vw;position: fixed;top:0;
+	}
+	.content-list
+	{
+		width: 100%;display: flex;justify-content: flex-start;align-items: center;flex-direction: column;
+		height: calc(100% - 88rpx);background-color: #F8F8F8;
+		.content-item
+		{
+			width: calc(100% - 72rpx);position: relative;z-index: 1;border-radius: 14rpx;
+			.content-item-margin{
+				width: 100%;height: 26rpx;
+			}
+			.content-item-content{
+				width: 100%;height: 150rpx;
+				.content-item-content-block
+				{
+					width: 100%;padding: 0 24rpx;height: 124rpx;background-color: #FFFFFF;border-radius: 14rpx;
+					
+					.content-item-content-block-top
+					{
+						display: flex;justify-content: space-between;align-items: center;padding: 20rpx 0 6rpx 0;
+						.left{
+							height: 45rpx;
+							opacity: 1;
+							font-size: 32rpx;
+							font-family: PingFangSC, PingFangSC-Medium;
+							font-weight: 500;
+							text-align: left;
+							color: #333333;
+							line-height: 45rpx;
+						}
+					}
+					.content-item-content-block-bottom{
+						display: flex;justify-content: space-between;align-items: center;
+						.left{
+							height: 33rpx;
+							opacity: 1;
+							font-size: 24rpx;
+							font-family: PingFangSC, PingFangSC-Regular;
+							font-weight: 400;
+							text-align: left;
+							color: #9b9b9b;
+							line-height: 33rpx;
+						}
+						.right{
+							height: 33rpx;
+							opacity: 1;
+							font-size: 24rpx;
+							font-family: PingFangSC, PingFangSC-Regular;
+							font-weight: 400;
+							text-align: right;
+							color: #9b9b9b;
+							line-height: 33rpx;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+</style>
