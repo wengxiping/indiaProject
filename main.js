@@ -8,11 +8,15 @@ import {router,RouterMount} from './router'
 Vue.use(router)
 import minx from './minx.js'
 Vue.mixin(minx)
-
+import vuexStore from "./store/$u.mixin"
+Vue.mixin(vuexStore);
 Vue.config.productionTip = false
 App.mpType = 'app'
+import store from "./store/"
+
 const app = new Vue({
-    ...App
+    ...App,
+	store
 })
 // http拦截器，将此部分放在new Vue()和app.$mount()之间，才能App.vue中正常使用
 import httpInterceptor from '@/request/http.interceptor.js';

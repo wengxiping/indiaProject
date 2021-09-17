@@ -18,14 +18,16 @@ const getBallzjlistUrl = "api/Notice/api?api_name=get_ballzjlist";//取色球中
 const getMyballlistUrl="/api/usercode/api?api_name=get_myballlist";//取我的色球中奖信息
 const setMyballUrl ="/api/usercode/api?api_name=set_myball";//色球下注
 //我的
-//api/usercode/api?api_name=get_vipinfo   取Vip信息
-//api/usercode/api?api_name=set_buyvip  VIP购买
-//api/usercode/api?api_name=get_myinfo 取VIP与余额
-//api/usercode/api?api_name=get_mybanklist  取银行卡信息
-//api/usercode/api?api_name=set_addmymoney  余额冲值
-//api/usercode/api?api_name=set_myoutmoney 余额提现
-//api/usercode/api?api_name=set_addmybankno  添加银行卡
-// api/usercode/api?api_name=get_myczlist  充值提现记录
+const getVipInfoUrl = "/api/usercode/api?api_name=get_vipinfo"; //取Vip信息
+const setBuyvipUrl = "/api/usercode/api?api_name=set_buyvip"; //VIP购买
+const getMyinfoUrl = "/api/usercode/api?api_name=get_myinfo"; //取VIP与余额
+const getMybanklistUrl = "/api/usercode/api?api_name=get_mybanklist"; //取银行卡信息
+const setAddmymoneyUrl="api/usercode/api?api_name=set_addmymoney";//余额充值
+const setMyoutmoneyUrl = "/api/usercode/api?api_name=set_myoutmoney"; //余额提现
+const setAddmybanknoUrl = "/api/usercode/api?api_name=set_addmybankno"; //添加银行卡
+const getMyczlistUrl = "/api/usercode/api?api_name=get_myczlist"; //充值提现记录
+
+
 
 const install = (Vue, vm) => {
 
@@ -47,8 +49,18 @@ const install = (Vue, vm) => {
 	let getBallzjlist = (params = {}) => vm.$u.get(getBallzjlistUrl,params);
 	let getMyballlist = (params = {}) => vm.$u.get(getMyballlistUrl,params);
 	let setMyball = (params = {}) => vm.$u.get(setMyballUrl,params);
+	
+	let getVipInfo = (params = {}) => vm.$u.get(getVipInfoUrl,params);
+	let setBuyvip = (params = {}) => vm.$u.get(setBuyvipUrl,params);
+	let getMyinfo = (params = {}) => vm.$u.get(getMyinfoUrl,params);
+	let getMybanklist = (params = {}) => vm.$u.get(getMybanklistUrl,params);
+	let setAddmymoney = (params = {}) => vm.$u.get(setAddmymoneyUrl,params);
+	let setMyoutmoney = (params = {}) => vm.$u.get(setMyoutmoneyUrl,params);
+	let setAddmybankno= (params = {}) => vm.$u.get(setAddmybanknoUrl,params);
+	let getMyczlist = (params = {}) => vm.$u.get(getMyczlistUrl,params);
+	
 
-	vm.$u.api = {register, login,getPhoneCode,getNewNotice,getTasklist,getRtuserdate,getuserinfo,getDrawinfo,getStartDrawt,getMydrawinfo,getBallconfig,getBallzjlist,getMyballlist,setMyball};
+	vm.$u.api = {getVipInfo,setBuyvip,getMyinfo,getMybanklist,setAddmymoney,getMyczlist,setAddmybankno,setMyoutmoney,register, login,getPhoneCode,getNewNotice,getTasklist,getRtuserdate,getuserinfo,getDrawinfo,getStartDrawt,getMydrawinfo,getBallconfig,getBallzjlist,getMyballlist,setMyball};
 }
 
 export default {

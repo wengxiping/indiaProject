@@ -6,10 +6,15 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+	// if(to.login && !uni.getStorageSync("token"))
+	// {
+	// 	router.push({name: 'login'})
+	// }
 	next();
 });
 router.afterEach((to, from) => {
-    console.log('跳转结束')
+	//console.log(to)
+    //console.log('跳转结束')
 })
 
 export {

@@ -13,12 +13,17 @@
         <image src="/static/icon/line.png" mode="aspectFit" class="line"></image>
         <text class="text">收入(非实时数据)</text>
       </view>
-      <view class="grid-list">
+      <view class="grid-list" v-if="loginStatus">
         <view class="g-item" v-for="(item, index) in gridList" :key="index">
           <text class="text">{{ item.title }}</text>
           <text class="small">{{ item.content }}</text>
         </view>
       </view>
+	  <view class="grid-list" v-else>
+		  <view  style="height:384rpx;text-align: center;width: 100%;line-height: 384rpx;display: flex;justify-content: center;align-items: center;">
+			 <u-button ripple="true" type="primary" @tap="$Router.push({name:'login'})">登录可查看</u-button> 
+		  </view>
+	  </view>
     </view>
     <!-- 任务大厅 -->
     <view class="info-box">
@@ -28,8 +33,9 @@
       </view>
       <view class="rwlist">
         <view class="rw-img" v-for="(item, index) in taskList" :key="index" @tap="link_href(item.taskurl)">
-          <image :src="item.taskpic" mode="scaleToFill" class="image"></image>
-        </view>
+          <image :src="item.taskpic" mode="scaleToFill" class="image" :title="item.taskpic"></image>
+        </view>	
+		<view class="rw-img"></view>
       </view>
     </view>
     <!-- 会员列表 -->
@@ -61,7 +67,7 @@
     </view>
     <view class="gap"></view>
     <u-mask :show="show">
-      <view class="tang">
+      <view class="tang" style="width: 70%;">
         <image src="/static/icon/close.png" mode="aspectFit" class="close" @click="show = false"></image>
         <view class="tbox">
           <image src="/static/tbg.png" mode="widthFix" class="w100"></image>
@@ -172,6 +178,7 @@
           getTaskFunc()
           {
             uni.$u.api.getTasklist().then(ret=>{
+				console.log(ret.data)
               if(ret && ret.code == 1)
               {
                 this.taskList = ret.data

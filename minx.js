@@ -8,12 +8,18 @@ export default{
 			loaded: false, //加载完毕
 		}
 	},
+	watch:{
+		loginStatusWatch()
+		{
+			console.log('here')
+			return this.loginStatus
+		}
+	},
 	methods:{
 		getCodeResetTime(){
 			var self = this
 			self.setCodeStatus = true
 			self.setInterval = setInterval(()=>{
-				console.log(self.setTime)
 				if(self.setTime==1){
 					self.setCodeStatus = false
 					clearInterval(self.setInterval)

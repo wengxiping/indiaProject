@@ -1,7 +1,7 @@
 <template>
   <view class="page-content">
 	  <image :src="require('@/static/bg_balance_tx.png')" class="page-content-bg"></image>
-	  <u-navbar back-text="余额提现" title="" :background="background" :back-text-style='backStyle' back-icon-color='#FFF'>
+	  <u-navbar back-text="提现" title="" :background="background" :back-text-style='backStyle' back-icon-color='#FFF'>
 		  <view slot="right" class="slotRight" @tap="$Router.push({name:'user_balance_tx_log'})">提现记录</view>
 	  </u-navbar>
 	  <view class="content-list">
@@ -20,12 +20,12 @@
 			  <view class="content-item-content-middle">
 				  <view class="content-item-content-middle-title">提现金额</view>
 				  <view class="content-item-content-middle-content">
-					  <input type="number" class="iput-number"/>
+					  <input type="number" class="iput-number" v-model="money"/>
 				  </view>
 				  <view class="content-item-content-middle-line"></view>
 			  </view>
 			  <view class="content-item-group">
-				 <view class="group-button">
+				 <view class="group-button" @tap="setMyoutmoneyFunc()">
 					 确定提现
 				 </view>
 			  </view>
@@ -44,7 +44,18 @@
 				backStyle:{
 					color:"#FFF"
 				},
-				
+				money:0,
+			}
+		},
+		methods:{
+			setMyoutmoneyFunc(){
+				uni.$u.api.setMyoutmoney({bcid:"",money:this.money,zfpd:''}).then(ret=>{
+					if(ret && ret.code==1){
+						uni.$u.toast("提现成功");
+					}else{
+						uni.$u.toast("提现失败");
+					}
+				})
 			}
 		}
 	}

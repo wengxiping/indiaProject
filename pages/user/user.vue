@@ -57,15 +57,7 @@
       }
     },
     methods: {
-      toRoute (params) {
-        if (this.hasLogin) {
-          this.$u.route(params)
-        } else {
-          this.$u.route({
-            url: 'pages/login/login'
-          })
-        }
-      }
+    
     }
   }
 </script>

@@ -9,11 +9,11 @@
 				 <view class="content-item-content-block">
 					 <view class="content-item-content-block-top">
 						 <view class="left">提现</view>
-						 <view class="right">+10000</view>
+						 <view class="right">-{{item.czmoney}}</view>
 					 </view>
 					 <view class="content-item-content-block-bottom">
-						 <view class="left">2021.08.21 14:22:22</view>
-						 <view class="right">余额：20000</view>
+						 <view class="left">{{item.ctime}}</view>
+						 <view class="right">余额：{{item.lastmoney}}</view>
 					 </view>
 				 </view>
 			 </view>
@@ -38,8 +38,22 @@
 				status: 'loadmore',
 			}
 		},
+		onLoad() {
+			this.getMyczlistFunc()
+		},
+		methods:{
+			getMyczlistFunc(){
+				uni.$u.api.getMyczlist({type:2,page:this.page}).then(ret=>{
+					if(ret && ret.code == 1)
+					{
+						this.dataList = this.dataList.concat(ret.data)
+					}
+				})
+			}
+		},
 		onReachBottom(){
-			console.log('here')
+			this.page++
+			this.getMyczlistFunc();
 		}
 	}
 </script>

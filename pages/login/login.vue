@@ -1,5 +1,6 @@
 <template>
     <view class="login-content">
+		 <u-navbar back-text="返回" :background="background"></u-navbar>
         <image src="/static/logo.png" mode="aspectFit" class="logo"></image>
         <text class="info-text">Hello join us \n Sign in with our account</text>
         <view class="write-form">
@@ -37,7 +38,10 @@
                 form: {
                     user_login: '',
                     code: ''
-                }
+                },
+				background:{
+					background:"none"
+				},
             };
         },
         methods: {

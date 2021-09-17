@@ -6,7 +6,7 @@
 		  <view class="content-item">
 			  <view class="content-item-content">
 				  <view class="content-item-content-title">可用余额(卢比)</view>
-				  <view class="content-item-content-value">1690</view>
+				  <view class="content-item-content-value">{{userData.usermoney?userData.usermoney:0}}</view>
 			  </view>
 			  <view class="content-item-group">
 				  <view class="left-button" @tap="$Router.push({name:'user_balance_tx'})">提现</view>
@@ -27,8 +27,16 @@
 				backStyle:{
 					color:"#FFF"
 				},
-				
+				userData:{}
 			}
+		},
+		onLoad() {
+			uni.$u.api.getMyinfo().then(ret=>{
+				if(ret && ret.code ==1)
+				{
+					this.userData = ret.data
+				}
+			})
 		}
 	}
 </script>

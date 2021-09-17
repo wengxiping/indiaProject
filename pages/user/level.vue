@@ -5,19 +5,19 @@
 	  <view class="content-list">
 		  <view class="content-list-item" v-for="(item,index) in levelList" :key="index">
 			  <view class="item-margin-top" v-if="index==0"></view>
-			  <view class="item-bg">
+			  <view class="item-bg" @click="buyClick(item)">
 				  <view class="item">
-				  	<view class="item-image"><image :src="item.backgroundSrc"/></view>
+				  	<view class="item-image"><image :src="require('@/static/bg_level'+(index+1)+'.png')"/></view>
 					<view class="item-bottom">
-						升级所需：{{item.levelMark}}
+						升级所需：{{item.money}}
 					</view>
 				  	<view class="item-content">
 						<view class="item-content-left">
-							<view class="item-content-left-name">{{item.levelName}}</view>
-							<view class="item-content-left-subname">可完成任务故量：{{item.num}}</view>
+							<view class="item-content-left-name">{{item.vipname}}</view>
+							<view class="item-content-left-subname">可完成任务故量：{{item.tasksum}}</view>
 						</view>
 						<view class="item-content-right">
-							<image :src="item.levelSrc"></image>
+							<image :src="item.thumb"></image>
 						</view>
 					</view>
 				  </view>
@@ -40,15 +40,47 @@
 					color:"#FFF"
 				},
 				levelList:[
-					{levelName:"平民",num:5,backgroundSrc:require('@/static/bg_level1.png'),levelSrc:require('@/static/bg_level_icon1.png'),levelMark:'1000',levelTime:'2021.07.27-2021.09.20'},
-					{levelName:"子爵",num:5,backgroundSrc:require('@/static/bg_level1.png'),levelSrc:require('@/static/bg_level_icon1.png'),levelMark:'1000',levelTime:'2021.07.27-2021.09.20'},
-					{levelName:"伯爵",num:5,backgroundSrc:require('@/static/bg_level1.png'),levelSrc:require('@/static/bg_level_icon1.png'),levelMark:'1000',levelTime:'2021.07.27-2021.09.20'},
-					{levelName:"侯爵",num:5,backgroundSrc:require('@/static/bg_level1.png'),levelSrc:require('@/static/bg_level_icon1.png'),levelMark:'1000',levelTime:'2021.07.27-2021.09.20'},
-					{levelName:"公爵",num:5,backgroundSrc:require('@/static/bg_level1.png'),levelSrc:require('@/static/bg_level_icon1.png'),levelMark:'1000',levelTime:'2021.07.27-2021.09.20'},
-					{levelName:"国王",num:30,backgroundSrc:require('@/static/bg_level1.png'),levelSrc:require('@/static/bg_level_icon1.png'),levelMark:'1000',levelTime:'2021.07.27-2021.09.20'},
-					
-					
+					{vipname:"平民",tasksum:5,backgroundSrc:require('@/static/bg_level1.png'),thumb:require('@/static/bg_level_icon1.png'),money:'1000',levelTime:'2021.07.27-2021.09.20'},
+					{vipname:"子爵",tasksum:5,backgroundSrc:require('@/static/bg_level1.png'),thumb:require('@/static/bg_level_icon1.png'),money:'1000',levelTime:'2021.07.27-2021.09.20'},
+					{vipname:"伯爵",tasksum:5,backgroundSrc:require('@/static/bg_level1.png'),thumb:require('@/static/bg_level_icon1.png'),money:'1000',levelTime:'2021.07.27-2021.09.20'},
+					{vipname:"侯爵",tasksum:5,backgroundSrc:require('@/static/bg_level1.png'),thumb:require('@/static/bg_level_icon1.png'),money:'1000',levelTime:'2021.07.27-2021.09.20'},
+					{vipname:"公爵",tasksum:5,backgroundSrc:require('@/static/bg_level1.png'),thumb:require('@/static/bg_level_icon1.png'),money:'1000',levelTime:'2021.07.27-2021.09.20'},
+					{vipname:"国王",tasksum:30,backgroundSrc:require('@/static/bg_level1.png'),thumb:require('@/static/bg_level_icon1.png'),money:'1000',levelTime:'2021.07.27-2021.09.20'},
 				]
+			}
+		},
+		onLoad() {
+			uni.$u.api.getVipInfo().then(ret=>{
+				if(ret && ret.code == 1)
+				{
+					this.levelList = ret.data
+				}
+				console.log(ret)
+			})
+		},
+		methods:{
+			buyClick(item)
+			{
+				if(item.buym>0)
+				{
+				  uni.showModal({
+				  	content: '是否购买?',
+				  	success: function (res) {
+				  		if (res.confirm) {
+				  			uni.$u.api.setBuyvip({vipid:item.vipid}).then(ret=>{
+				  				if(ret && ret.code == 1)
+				  				{
+				  					uni.$u.toast(ret.data.msg)
+				  				}else{
+				  					uni.$u.toast("购买失败")
+				  				}
+				  			})
+				  		}
+				  	}
+				  });
+				}else{
+					uni.$u.toast("余额不足,需要请充值")
+				}
 			}
 		}
 	}

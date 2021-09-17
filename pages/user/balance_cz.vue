@@ -7,7 +7,7 @@
 	  <view class="content-list">
 		  <view class="content-item">
 			  <view class="content-item-content">
-				  <view class="content-item-content-title">提现到</view>
+				  <view class="content-item-content-title">充值到</view>
 				  <view class="content-item-content-content" @tap="$Router.push({name:'user_bank_list'})">
 					  <image src="" style=";" class="image-left"></image>
 					  <view class="view-content">
@@ -18,15 +18,15 @@
 				  </view>
 			  </view>
 			  <view class="content-item-content-middle">
-				  <view class="content-item-content-middle-title">提现金额</view>
+				  <view class="content-item-content-middle-title">充值金额</view>
 				  <view class="content-item-content-middle-content">
-					  <input type="number" class="iput-number"/>
+					  <input type="number" class="iput-number" v-model="money"/>
 				  </view>
 				  <view class="content-item-content-middle-line"></view>
 			  </view>
 			  <view class="content-item-group">
-				 <view class="group-button">
-					 确定提现
+				 <view class="group-button" @tap="setAddmymoneyFunc()">
+					 确定充值
 				 </view>
 			  </view>
 		  </view>
@@ -44,7 +44,18 @@
 				backStyle:{
 					color:"#FFF"
 				},
-				
+				money:0
+			}
+		},
+		methods:{
+			setAddmymoneyFunc(){
+				uni.$u.api.setAddmymoney({bcid:"",money:this.money}).then(ret=>{
+					if(ret && ret.code==1){
+						uni.$u.toast("充值成功");
+					}else{
+						uni.$u.toast("充值失败");
+					}
+				})
 			}
 		}
 	}

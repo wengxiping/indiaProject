@@ -7,22 +7,22 @@
 			  <view class="content-form">
 				  <view class="content-form-line">
 					  <view class="content-form-label">姓名</view>
-					  <view class="content-form-input"><input type="text" placeholder="请输入持卡人姓名" placeholder-class="content-form-input-place" class="content-form-input-input"/></view>
+					  <view class="content-form-input"><input v-model="form.bankuser" type="text" placeholder="请输入持卡人姓名" placeholder-class="content-form-input-place" class="content-form-input-input"/></view>
 				  </view>
 				  
 				  <view class="content-form-line content-form-line-margin">
 					  <view class="content-form-label">身份证</view>
-					  <view class="content-form-input"><input type="text" placeholder="请输入证件号" placeholder-class="content-form-input-place" class="content-form-input-input"/></view>
+					  <view class="content-form-input"><input  v-model="form.banksfz" type="text" placeholder="请输入证件号" placeholder-class="content-form-input-place" class="content-form-input-input"/></view>
 				  </view>
 				  
 				  <view class="content-form-line content-form-line-margin">
 					  <view class="content-form-label">开户银行</view>
-					  <view class="content-form-input"><input type="text" placeholder="请输入证件号" placeholder-class="content-form-input-place" class="content-form-input-input"/></view>
+					  <view class="content-form-input"><input  v-model="form.bankname" type="text" placeholder="请输入证件号" placeholder-class="content-form-input-place" class="content-form-input-input"/></view>
 				  </view>
 				  
 				  <view class="content-form-line content-form-line-margin">
 					  <view class="content-form-label">银行卡号</view>
-					  <view class="content-form-input"><input type="text" placeholder="请输入银行卡号" placeholder-class="content-form-input-place" class="content-form-input-input"/></view>
+					  <view class="content-form-input"><input  v-model="form.bankno"  type="number" placeholder="请输入银行卡号" placeholder-class="content-form-input-place" class="content-form-input-input"/></view>
 				  </view>
 			  </view>
 			  
@@ -58,7 +58,13 @@
 				dataList:[{backgroud:'linear-gradient(121deg,#27347d 10%, #3045b6 90%)'},
 				{backgroud:'linear-gradient(144deg,#d05f2d 3%, #ffa100)'},
 				{backgroud:'linear-gradient(121deg,#3e90ba 10%, #30b686 90%)'}],
-				messageValue:""
+				messageValue:"",
+				form:{
+					bankuser:"",
+					bankname:"",
+					bankno:"",
+					banksfz:""
+				}
 			}
 		},
 		methods:{
@@ -72,6 +78,20 @@
 			backspace(){
 				this.messageValue=this.messageValue.slice(0,this.messageValue.length-1)
 			},
+			addBankFunc()
+			{
+				uni.$u.throttle(()=>{
+					uni.$u.api.setAddmybankno(this.form).then(ret=>{
+						if(ret && ret.code==1)
+						{
+							uni.$u.toast("添加成功");
+							uni.$Router.back()
+						}else{
+							uni.$u.toast(ret.msg)
+						}
+					})
+				})
+			}
 			
 		}
 	}

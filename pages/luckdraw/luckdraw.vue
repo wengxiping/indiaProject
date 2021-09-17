@@ -4,7 +4,11 @@
       <image src="/static/luck-bg.png" mode="widthFix" class="luck-bg"></image>
       <view class="lk-title">
         <text class="text">lucky wheel</text>
-        <image src="/static/luck-title.png" mode="aspectFit" class="lk-t"></image>
+		<view class="text-view">
+			<view class="text-view-top">当前奖金池金额</view>
+			<view class="text-view-bottom">50000000卢比</view>
+		</view>
+        <!-- <image src="/static/luck-title.png" mode="aspectFit" class="lk-t"></image> -->
       </view>
       <view class="luck-content">
         <image src="/static/luck-box.png" mode="aspectFit" class="lk-m"></image>
@@ -95,6 +99,7 @@
         }
       },
       onload(){
+		  console.log('kkkk')
         this.getDrawinfoFunc();
         this.getMydrawInfoFunc();
       },
@@ -125,7 +130,9 @@
         },
         getDrawinfoFunc()
         {
+			console.log("here")
           uni.$u.api.getDrawinfo().then(ret=>{
+			  console.log(ret)
                 if(ret && ret.code == 1)
                 {
                   this.drawuserList = ret.data.drawuser
@@ -204,6 +211,23 @@
       margin-top: 20rpx;
     }
   }
+  
+  .text-view{
+	   @include flexCenter(2);
+	   flex-direction: column;
+	   height: 132rpx;
+	  
+	   .text-view-top{
+		   font-size: 50rpx;
+		   color: #FFDF89;
+		   font-weight: 500;
+	   }
+	   .text-view-bottom{
+		   font-size: 46rpx;
+		   color: #FFDF89;
+	   }
+  }
+  
   .luck-content {
     position: relative;
     width: 651rpx;

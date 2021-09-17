@@ -11,12 +11,12 @@
 						 <view class="content-item-content-block-top">
 							 <view class="left"><image src="" class="left-image"/></view>
 							 <view class="middle">
-								 <view class="middle-top">汇丰银行信用卡(8899)</view>
+								 <view class="middle-top">{{item.bankname}}({{item.bankno}})</view>
 								 <view class="middle-bottom">该卡本次最多可转入50000</view>
 							 </view>
 							 <view class="txt">解绑</view>
 						 </view>
-						 <view class="content-item-content-block-bottom">**** 2222 6666 8888</view>
+						 <view class="content-item-content-block-bottom">{{item.bcid}}</view>
 					 </view>
 				 </view>
 			  </view>
@@ -38,6 +38,13 @@
 				{backgroud:'linear-gradient(144deg,#d05f2d 3%, #ffa100)'},
 				{backgroud:'linear-gradient(121deg,#3e90ba 10%, #30b686 90%)'}]
 			}
+		},
+		onShow() {
+			uni.$u.api.getMybanklist({}).then(ret=>{
+				if(ret && ret.code==1){
+					this.dataList = ret.data
+				}
+			})
 		}
 	}
 </script>

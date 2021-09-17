@@ -45,8 +45,8 @@
         <text class="text">中奖记录</text>
       </view>
       <view class="record-list">
-        <view class="cell u-line-1" v-for="(item, index) in 2" :key="index">
-          <text>恭喜46546*46546，用户获得70000卢比大奖</text>
+        <view class="cell u-line-1" v-for="(item, index) in getMyballlist" :key="index">
+          <text>恭喜{{item.username}}，用户获得{{item.ballmoney}}卢比大奖</text>
         </view>
       </view>
     </view>
@@ -64,15 +64,15 @@
           <text class="text">RESULT</text>
         </view>
         <view class="in-td">
-          <view class="cell" v-for="(item, index) in 4" :key="index">
+          <view class="cell" v-for="(item, index) in getBallzjlist" :key="index">
             <view class="c-td">
-              <text class="text">0165158</text>
+              <text class="text">{{item.drawno}}</text>
             </view>
             <view class="c-td">
-              <text class="text">18002</text>
+              <text class="text">{{item.ballmoney}}</text>
             </view>
             <view class="c-td">
-              <text class="text">1</text>
+              <text class="text">{{item.ballsum}}</text>
             </view>
             <view class="c-td">
               <text style="background-color: #866FFF;" class="rint"></text>
@@ -90,13 +90,22 @@
     data() {
       return {
         timestamp: 3400,
+		nowtimestap:Date.parse(new Date())/1000,
+		getMyballlist:[],
+		getBallzjlist:[]
       };
     },
+	onLoad() {
+		this.getBallConfigFunc();
+		this.getBallzjlistFunc();
+		this.getMyballlistFunc();
+	},
     methods:{
       getBallConfigFunc(){
+		  console.log()
          uni.$u.api.getBallconfig({}).then(ret=>{
             if(ret && ret.code == 1){
-
+				this.timestamp = this.nowtimestap>=ret.data.nextkjtime?0:ret.data.nextkjtime-this.nowtimestap
             }else{
 
             }
@@ -105,13 +114,15 @@
       getBallzjlistFunc(){
         uni.$u.api.getBallzjlist({}).then(ret=>{
           if(ret && ret.code == 1){
-
+              console.log(ret)
+			  this.getBallzjlist = ret.data.zjball
           }else{
 
           }
         })
       },
       getMyballlistFunc(){
+		if(!this.loginStatus)return
         uni.$u.api.getMyballlist({}).then(ret=>{
           if(ret && ret.code == 1){
 
