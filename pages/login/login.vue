@@ -67,6 +67,7 @@
                             uni.setStorageSync("loginStatus",true);
                             uni.setStorageSync("token", ret.data.token)
                             uni.setStorageSync("userInfo", ret.data)
+							uni.$Router.push({name:"index"})
                             // "user_nicename": "mu1121",
                             // "avatar": "192.168.11.41/default.jpg",
                             // "avatar_thumb": "192.168.11.41/default_thumb.jpg",

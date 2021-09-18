@@ -26,7 +26,9 @@ const saveLifeData = function (key, value) {
 }
 export default new Vuex.Store({
 	state:{
-		loginStatus: uni.getStorageSync('token')?uni.getStorageSync('token'):true,//判断用户是否是第一次登录
+		loginStatus: uni.getStorageSync('loginStatus')?true:false,//判断用户是否是第一次登录
+		userInfo:uni.getStorageSync('userInfo') || {},
+		bankItem:{}
 	},
 	 mutations: {
 	    $uStore(state, payload) {

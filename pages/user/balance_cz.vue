@@ -9,25 +9,30 @@
 			  <view class="content-item-content">
 				  <view class="content-item-content-title">充值到</view>
 				  <view class="content-item-content-content" @tap="$Router.push({name:'user_bank_list'})">
-					  <image src="" style=";" class="image-left"></image>
-					  <view class="view-content">
-						  <view class="view-content-top">汇丰银行信用卡(8899)</view>
-						  <view class="view-content-bottom">该卡本次最多可转入50000</view>
+					  <view class="blank-hide" v-if="Object.keys(bankItem).length == 0">
+						  <u-icon name="plus" size="60" color="#999999"></u-icon>
 					  </view>
-					  <u-icon name="arrow-right" color="#2979ff" size="28"  class="image-right"></u-icon>
+					  <view class="blank-show" v-else>
+						  <image src="" style=";" class="image-left"></image>
+						  <view class="view-content">
+							  <view class="view-content-top">{{bankItem.bankname}}({{bankItem.bankno}})</view>
+							  <view class="view-content-bottom">该卡本次最多可转入50000</view>
+						  </view>
+						  <u-icon name="arrow-right" color="#2979ff" size="28"  class="image-right"></u-icon>
+					  </view>
+
 				  </view>
 			  </view>
 			  <view class="content-item-content-middle">
 				  <view class="content-item-content-middle-title">充值金额</view>
 				  <view class="content-item-content-middle-content">
-					  <input type="number" class="iput-number" v-model="money"/>
+					  <input type="number" class="iput-number" placeholder="请输入整数金额" v-model="money"/>
 				  </view>
 				  <view class="content-item-content-middle-line"></view>
 			  </view>
 			  <view class="content-item-group">
-				 <view class="group-button" @tap="setAddmymoneyFunc()">
-					 确定充值
-				 </view>
+				 <view class="group-button-default" v-if="Object.keys(bankItem).length == 0">确定充值</view>
+				  <view class="group-button" @tap="setAddmymoneyFunc()" v-else>确定充值</view>
 			  </view>
 		  </view>
 	  </view>
@@ -44,12 +49,14 @@
 				backStyle:{
 					color:"#FFF"
 				},
-				money:0
+				money:"",
 			}
+		},
+		onShow(){
 		},
 		methods:{
 			setAddmymoneyFunc(){
-				uni.$u.api.setAddmymoney({bcid:"",money:this.money}).then(ret=>{
+				uni.$u.api.setAddmymoney({bcid:this.bankItem.bankno,money:this.money}).then(ret=>{
 					if(ret && ret.code==1){
 						uni.$u.toast("充值成功");
 					}else{
@@ -85,7 +92,7 @@
 		{
 			width: calc(100% - 72rpx);position: relative;z-index: 1;margin-top: 20rpx;border-radius: 14rpx;
 			height: 718rpx;background-color: #FFFFFF;
-			
+
 			.content-item-content
 			{
 				width: 100%;height: 275rpx;display: flex;justify-content: flex-start;align-items: flex-start;flex-direction: column;
@@ -104,37 +111,45 @@
 					background: #f8f8f8;
 					border-radius: 14rpx;
 					display: flex;justify-content: space-between;align-items: center;width: calc(100% - 60rpx);margin:0 auto 0;height: 128rpx;
-				   .image-left{
-					   margin-left: 28rpx;
-					   background: linear-gradient(225deg,#ff8960, #ff62a5);
-					   border-radius: 50%;
-					   width: 68rpx;height: 68rpx;
-				   }
-				   .image-right{
-					   margin-right: 28rpx;
-				   }
-				   .view-content
-				   {
-					   width: calc(100% - 180rpx);
-					   .view-content-top{
-						   opacity: 1;
-						   font-size: 30rpx;
-						   font-family: PingFangSC, PingFangSC-Regular;
-						   font-weight: 400;
-						   text-align: left;
-						   color: #333333;
-					   }
-					   .view-content-bottom{
-						   opacity: 1;
-						   font-size: 24rpx;
-						   font-family: PingFangSC, PingFangSC-Regular;
-						   font-weight: 400;
-						   text-align: left;
-						   color: #9b9b9b;
-					   }
-				   }
+
+					.blank-show{
+						display: flex;justify-content: space-between;align-items: center;width: 100%;
+						.image-left{
+							margin-left: 28rpx;
+							background: linear-gradient(225deg,#ff8960, #ff62a5);
+							border-radius: 50%;
+							width: 68rpx;height: 68rpx;
+						}
+						.image-right{
+							margin-right: 28rpx;
+						}
+						.view-content
+						{
+							width: calc(100% - 180rpx);
+							.view-content-top{
+								opacity: 1;
+								font-size: 30rpx;
+								font-family: PingFangSC, PingFangSC-Regular;
+								font-weight: 400;
+								text-align: left;
+								color: #333333;
+							}
+							.view-content-bottom{
+								opacity: 1;
+								font-size: 24rpx;
+								font-family: PingFangSC, PingFangSC-Regular;
+								font-weight: 400;
+								text-align: left;
+								color: #9b9b9b;
+							}
+						}
+					}
+					.blank-hide{
+						width: 100%;height: 100%;
+						@include flexCenter(1);
+					}
 				}
-				
+
 			}
 			.content-item-content-middle
 			{
@@ -159,7 +174,7 @@
 					margin-bottom: 40rpx;
 					.iput-number
 					{
-						width: 100%;height: 100%;color: #000000;font-size: 30rpx;
+						width: 100%;height: 100%;color: #000000;font-size: 30rpx;text-indent: 12rpx;
 					}
 				}
 				.content-item-content-middle-line
@@ -187,7 +202,20 @@
 					color: #f8f8f8;
 					line-height: 100rpx;
 				}
-				
+                 .group-button-default{
+					 width: 638rpx;
+					 height: 100rpx;
+					 opacity: 1;
+					 background: #c9c9c9;
+					 border-radius: 14rpx;
+					 opacity: 1;
+					 font-size: 30rpx;
+					 font-family: PingFangSC, PingFangSC-Regular;
+					 font-weight: 400;
+					 text-align: center;
+					 color: #f8f8f8;
+					 line-height: 100rpx;
+				 }
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 {
     "id": "lucky-canvas",
-    "name": "H5 / 微信 / QQ 小程序【大转盘 / 九宫格】抽奖插件 ",
+    "name": "indiaProject",
     "version": "1.4.5",
     "description": "奖品/文字/图片/颜色/按钮均可配置，支持同步/异步抽奖，概率前/后端可控，自动根据dpr调整清晰度",
     "keywords": [
@@ -14,5 +14,19 @@
         "uni-luck-draw": "^1.3.9",
         "uni-read-pages": "^1.0.5",
         "uni-simple-router": "^2.0.7"
+    },
+    "uni-app": {
+        "scripts": {
+            "h5-weixin": {
+                "title":"微信服务号",
+                "BROWSER":"Chrome",
+                "env": {
+                    "UNI_PLATFORM": "h5"
+                },
+                "define": {
+                    "H5-WEIXIN": true
+                }
+            }
+        }
     }
 }

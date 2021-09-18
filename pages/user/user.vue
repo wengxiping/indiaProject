@@ -4,12 +4,17 @@
       <image src="/static/userbg.png" mode="widthFix" class="w100"></image>
       <view class="user-info">
         <text class="user-title">我的中心</text>
-        <view class="user-cell" 
-          @tap="$Router.push({name:'login'})">
+        <view class="user-cell"
+          @tap="$Router.push({name:'login'})" v-if="!hasLogin">
           <u-avatar src="/static/avatar.png" size="118" :show-level="hasLogin" level-icon="/static/icon/level.png"></u-avatar>
-          <text class="name">Hi，你未登录</text>
-          <image src="/static/icon/icon-edit.png" mode="aspectFit" class="edit-info" v-if="hasLogin"></image>
+          <text class="name">Hi，您好</text>
         </view>
+        <view class="user-cell" v-else>
+          <u-avatar :src="userInfo.avatar_thumb" size="118" :show-level="hasLogin" level-icon="/static/icon/level.png"></u-avatar>
+          <text class="name">Hi，{{userInfo.user_nicename}}</text>
+          <image src="/static/icon/icon-edit.png" mode="aspectFit" class="edit-info"></image>
+        </view>
+
       </view>
     </view>
     <view class="user-links">
@@ -48,16 +53,19 @@
             name: '设置',
 			path:"user_setting",
           }
-        ]
+        ],
       };
     },
     computed: {
       hasLogin () {
-        return false
+        return this.loginStatus
       }
     },
+    onShow(){
+
+    },
     methods: {
-    
+
     }
   }
 </script>
@@ -88,7 +96,7 @@
       background: #ffffff;
       border-radius: 14rpx;
       padding: 38rpx 28rpx;
-      box-shadow: 0rpx 0rpx 20rpx -10rpx rgba(0,0,0,0.06); 
+      box-shadow: 0rpx 0rpx 20rpx -10rpx rgba(0,0,0,0.06);
       @include flexCenter(0);
       .name {
         font-size: 32rpx;
@@ -109,7 +117,7 @@
     background-color: #FFFFFF;
     height: 102rpx;
     border-radius: 14rpx;
-    box-shadow: 0rpx 0rpx 20rpx -10rpx rgba(0,0,0,0.06); 
+    box-shadow: 0rpx 0rpx 20rpx -10rpx rgba(0,0,0,0.06);
     margin-top: $gutter;
     @include flexCenter(0);
     padding: 0 28rpx;

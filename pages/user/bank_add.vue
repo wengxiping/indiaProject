@@ -9,25 +9,26 @@
 					  <view class="content-form-label">姓名</view>
 					  <view class="content-form-input"><input v-model="form.bankuser" type="text" placeholder="请输入持卡人姓名" placeholder-class="content-form-input-place" class="content-form-input-input"/></view>
 				  </view>
-				  
+
 				  <view class="content-form-line content-form-line-margin">
 					  <view class="content-form-label">身份证</view>
 					  <view class="content-form-input"><input  v-model="form.banksfz" type="text" placeholder="请输入证件号" placeholder-class="content-form-input-place" class="content-form-input-input"/></view>
 				  </view>
-				  
+
 				  <view class="content-form-line content-form-line-margin">
 					  <view class="content-form-label">开户银行</view>
 					  <view class="content-form-input"><input  v-model="form.bankname" type="text" placeholder="请输入证件号" placeholder-class="content-form-input-place" class="content-form-input-input"/></view>
 				  </view>
-				  
+
 				  <view class="content-form-line content-form-line-margin">
 					  <view class="content-form-label">银行卡号</view>
 					  <view class="content-form-input"><input  v-model="form.bankno"  type="number" placeholder="请输入银行卡号" placeholder-class="content-form-input-place" class="content-form-input-input"/></view>
 				  </view>
 			  </view>
-			  
+
 			  <view class="group-button">
-				  <view class="button" @click.parent="show = true">添加银行卡</view>
+<!--				  <view class="button" @click.parent="show = true">添加银行卡</view>-->
+				  <view class="button" @tap="addBankFunc">添加银行卡</view>
 			  </view>
 		  </view>
 		<!-- <view class="fixed-middle" v-if="show">
@@ -60,10 +61,10 @@
 				{backgroud:'linear-gradient(121deg,#3e90ba 10%, #30b686 90%)'}],
 				messageValue:"",
 				form:{
-					bankuser:"",
-					bankname:"",
-					bankno:"",
-					banksfz:""
+					bankuser:"小伟",
+					bankname:"中国银行卡",
+			        bankno:"6228480088141848874",
+					banksfz:"421126199008203232"
 				}
 			}
 		},
@@ -92,7 +93,7 @@
 					})
 				})
 			}
-			
+
 		}
 	}
 </script>
@@ -168,13 +169,13 @@
 						font-weight: 400;
 						text-align: left;
 						color: #cccccc;
-						
+
 					}
 				}
 			}
-			
+
 		}
-		
+
 		.group-button
 		{
 			width: 638rpx;
@@ -194,7 +195,7 @@
 				color: #f8f8f8;
 			}
 		}
-		
+
 	}
 }
 </style>

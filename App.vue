@@ -4,7 +4,6 @@
 			console.log('App Launch')
 		},
 		onShow: function() {
-			console.log(uni.$u)
 			console.log('App Show')
 		},
 		onHide: function() {

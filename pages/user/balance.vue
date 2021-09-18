@@ -9,7 +9,7 @@
 				  <view class="content-item-content-value">{{userData.usermoney?userData.usermoney:0}}</view>
 			  </view>
 			  <view class="content-item-group">
-				  <view class="left-button" @tap="$Router.push({name:'user_balance_tx'})">提现</view>
+				  <view class="left-button" @tap="txFunc()">提现</view>
 				  <view class="right-button" @tap="$Router.push({name:'user_balance_cz'})">充值</view>
 			  </view>
 		  </view>
@@ -27,7 +27,8 @@
 				backStyle:{
 					color:"#FFF"
 				},
-				userData:{}
+				userData:{},
+				moneyNum:0,
 			}
 		},
 		onLoad() {
@@ -37,6 +38,17 @@
 					this.userData = ret.data
 				}
 			})
+		},
+		methods:{
+			txFunc()
+			{
+				if(this.money>0)
+				{
+					this.$Router.push({name:'user_balance_tx'})
+				}else{
+					uni.$u.toast("提交金额不足1元")
+				}
+			}
 		}
 	}
 </script>
@@ -55,7 +67,7 @@
 		{
 			width: calc(100% - 72rpx);position: relative;z-index: 1;margin-top: 20rpx;border-radius: 14rpx;
 			height: 494rpx;background-color: #FFFFFF;
-			
+
 			.content-item-content
 			{
 				width: 100%;height: calc(100% - 220rpx);display: flex;justify-content: center;align-items: center;flex-direction: column;
