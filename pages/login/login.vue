@@ -49,10 +49,10 @@
                 if (uni.$u.test.mobile(this.form.user_login)) {
                     uni.$u.throttle(async () => {
                         uni.$u.api.getPhoneCode({mobile: this.form.user_login}).then(ret => {
-                            console.log(ret)
+                           uni.$u.toast(ret.msg);
                             if (ret && ret.code == 1) {
                                 this.getCodeResetTime();
-                                uni.$u.toast(uni.$u.msg.getCodeFail);
+                                //uni.$u.toast(uni.$u.msg.getCodeFail);
                             }
                         })
                     })
@@ -63,6 +63,7 @@
             login() {
                 uni.$u.throttle(async () => {
                     uni.$u.api.login(this.form).then(ret => {
+						 uni.$u.toast(ret.msg)
                         if (ret && ret.code == 1) {
 							this.$u.vuex("loginStatus",true)
 							this.$u.vuex("userInfo",ret.data)
@@ -70,9 +71,7 @@
                             uni.setStorageSync("token", ret.data.token)
                             uni.setStorageSync("userInfo", ret.data)
 							this.$Router.pushTab({name:'index'})
-                        } else {
-                            uni.$u.toast(uni.$u.msg.loginFail)
-                        }
+                        } 
                     })
                 })
             },

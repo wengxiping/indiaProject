@@ -3,7 +3,11 @@
 		<u-navbar back-text="返回" :background="background" title="任务中" :customBack="goHome">
 			 <view slot="right" class="slotRight"><u-count-down :timestamp="taskTime" :show-hours="false" color="#FF5533" separator-color="#FF5533" height="40" @end="cutdownEnd"></u-count-down></view>
 		</u-navbar>
-		<iframe src="https://www.baidu.com" :style="{width:'100vw',height:'100vh'}" frameborder="0"></iframe>
+		<view class="iframe-content">
+			<!--  -->
+		   <iframe :src="urlTime.taskurl" class='iframe' frameborder="0"></iframe>	
+		</view>
+		
 	</view>
 </template>
 
@@ -18,6 +22,7 @@
 				urlTime:{}
 			}
 		},
+		
 		onLoad() {
 			this.urlTime = this.$route.params
 			this.taskTime = this.urlTime.tasktime
@@ -46,5 +51,13 @@
 	text-align: right;
 	color: #ffffff;
 	margin-right: 36rpx;
+}
+.iframe-content{
+	width: 100%;
+	height: calc(100vh - 88rpx);
+	.iframe{
+		width: 100%;
+		height:100%;
+	}
 }
 </style>

@@ -44,12 +44,12 @@
                 if (uni.$u.test.mobile(this.form.user_login)) {
                     uni.$u.throttle(async () => {
                         uni.$u.api.getPhoneCode({mobile: this.form.user_login}).then(ret => {
-                            console.log(ret)
+                            uni.$u.toast(ret.msg)
                             if (ret && ret.code == 1) {
                                 this.getCodeResetTime();
-                                uni.$u.toast(uni.$u.msg.getCodeSuccess);
+                                //uni.$u.toast(uni.$u.msg.getCodeSuccess);
                             } else {
-                                uni.$u.toast(uni.$u.msg.getCodeFail);
+                                //uni.$u.toast(uni.$u.msg.getCodeFail);
                             }
                         })
                     })
@@ -60,15 +60,15 @@
             register() {
                 uni.$u.throttle(async () => {
                     uni.$u.api.register(this.form).then(ret => {
-                        console.log(ret)
+                       uni.$u.toast(ret.msg)
                         if (ret && ret.code == 1) {
-                            uni.$u.toast(uni.$u.msg.registerSuccess);
+                            //uni.$u.toast(uni.$u.msg.registerSuccess);
 							uni.setStorageSync("loginStatus",true);
 							uni.setStorageSync("token", ret.data.token)
 							uni.setStorageSync("userInfo", ret.data)
 							this.$Router.pushTab({name:"index"})
                         }else{
-                            uni.$u.toast(uni.$u.msg.registerFail);
+                            //uni.$u.toast(uni.$u.msg.registerFail);
                         }
                     })
                 })
