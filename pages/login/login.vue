@@ -64,6 +64,8 @@
                 uni.$u.throttle(async () => {
                     uni.$u.api.login(this.form).then(ret => {
                         if (ret && ret.code == 1) {
+							this.$u.vuex("loginStatus",true)
+							this.$u.vuex("userInfo",ret.data)
                             uni.setStorageSync("loginStatus",true);
                             uni.setStorageSync("token", ret.data.token)
                             uni.setStorageSync("userInfo", ret.data)

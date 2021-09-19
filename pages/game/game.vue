@@ -167,7 +167,7 @@
 			   uni.$u.toast(ret.msg)
 			 })
 		 }else{
-			 uni.$u.toast(uni.$u.msg.requestTimeOut)
+			// uni.$u.toast(uni.$u.msg.requestTimeOut)
 		 }
 		  return;
 		  

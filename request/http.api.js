@@ -8,6 +8,7 @@ const getNewNoticeUrl ="/api/Notice/api?api_name=get_new_notice";//获取公告 
 const getTasklistUrl="/api/Usercode/api?api_name=get_tasklist";//获取任务
 const getRtuserdateUrl="/api/Notice/api?api_name=get_ptuserdate";//首页取平台三个数据
 const getuserinfoUrl ="/api/Usercode/api?api_name=get_userinfo";//首页获得个人收益信息
+const setTasklistUrl ="/api/Usercode/api?api_name=set_tasklist";//完成任务
 //转盘
 const getDrawinfoUrl ="/api/Notice/api?api_name=get_drawinfo";//获取转盘信息
 const getStartDrawtUrl="/api/usercode/api?api_name=get_startdraw";//开始抽奖
@@ -67,7 +68,10 @@ const install = (Vue, vm) => {
 	let getMybulist= (params = {}) => vm.$u.get(getMybulistUrl,params);
     let setBuyaddm= (params = {}) => vm.$u.get(setBuyaddmUrl,params);
 	let setMyzfpd= (params = {}) => vm.$u.get(setMyzfpdUrl,params);
-	vm.$u.api = {setMyzfpd,setBuyaddm,getMybulist,getMyadm,getAddmlist,getVipInfo,setBuyvip,getMyinfo,getMybanklist,setAddmymoney,getMyczlist,setAddmybankno,setMyoutmoney,register, login,getPhoneCode,getNewNotice,getTasklist,getRtuserdate,getuserinfo,getDrawinfo,getStartDrawt,getMydrawinfo,getBallconfig,getBallzjlist,getMyballlist,setMyball};
+	
+	let setTasklist= (params = {}) => vm.$u.get(setTasklistUrl,params);
+	
+	vm.$u.api = {setTasklist,setMyzfpd,setBuyaddm,getMybulist,getMyadm,getAddmlist,getVipInfo,setBuyvip,getMyinfo,getMybanklist,setAddmymoney,getMyczlist,setAddmybankno,setMyoutmoney,register, login,getPhoneCode,getNewNotice,getTasklist,getRtuserdate,getuserinfo,getDrawinfo,getStartDrawt,getMydrawinfo,getBallconfig,getBallzjlist,getMyballlist,setMyball};
 }
 
 export default {

@@ -182,6 +182,14 @@
                 "enablePullDownRefresh": false
             }
             
+        },{
+            "path" : "pages/index/iframe",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
   "tabBar": {

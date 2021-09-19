@@ -102,10 +102,16 @@
       },
       onShow(){
         this.getDrawinfoFunc();
-        this.getMydrawInfoFunc();
+        this.loginStatus && this.getMydrawInfoFunc();
       },
       methods: {
         startCallBack () {
+			// this.$refs.luckyWheel.play()
+			// setTimeout(() => {
+			//    let stopIndex=1
+			//   this.$refs.luckyWheel.stop(1)
+			// }, 3000)
+		 //  return;
           if(!this.loginStatus){uni.$u.toast("请先登录");return}
 		  this.getStartDrawtFunc()
          
@@ -129,11 +135,11 @@
                this.zj_message = ret.data
 			   this.$refs.luckyWheel.play()
 			   setTimeout(() => {
-				   let stopIndex=1
+				   let stopIndex=0
 				  self.prizes.forEach((item,index)=>{
 					  if(item.level == ret.data.level)
 					  {
-						  stopIndex = index+1
+						  stopIndex = index
 					  }
 				  })
 			     self.$refs.luckyWheel.stop(stopIndex)
@@ -168,7 +174,7 @@
                this.cjsum = ret.data.cjsum
                this.mydrawlist = ret.data.mydrawlist
              }else{
-               uni.$u.toast(uni.$u.msg.requestTimeOut);
+               //uni.$u.toast(uni.$u.msg.requestTimeOut);
              }
           })
         }

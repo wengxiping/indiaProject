@@ -62,7 +62,7 @@
       }
     },
     onShow(){
-
+         console.log('user')
     },
     methods: {
 

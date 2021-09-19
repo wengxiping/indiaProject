@@ -125,6 +125,7 @@
 				this.messageValue=this.messageValue.slice(0,this.messageValue.length-1)
 			},
 			logout(){
+				var self = this
 				uni.showModal({
 					title:"温馨提示",
 					content:"是否要退出登录?",
@@ -134,9 +135,9 @@
 							uni.setStorageSync("loginStatus",false);
 							uni.removeStorageSync("token")
 							uni.removeStorageSync("userInfo")
-							uni.navigateBack({
-								delta:1
-							})
+							self.$u.vuex("loginStatus",false)
+							self.$u.vuex("userInfo",{})
+							self.$Router.push({name:'login'})
 						}
 					}
 				})

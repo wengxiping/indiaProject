@@ -32,7 +32,7 @@
         <text class="text">任务大厅</text>
       </view>
       <view class="rwlist">
-        <view class="rw-img" v-for="(item, index) in taskList" :key="index" @tap="link_href(item.taskurl)">
+        <view class="rw-img" v-for="(item, index) in taskList" :key="index" @tap="link_href(item)">
           <image :src="item.taskpic" mode="scaleToFill" class="image" :title="item.taskpic"></image>
         </view>
 		<view class="rw-img"></view>
@@ -131,12 +131,14 @@
 },
         onLoad() {
 			 this.getNewNoticeFun();
-        	 
         },
 		onShow() {
+			console.log('onShow')
+			
             this.getUserInfoFunc();
             this.getRtuserdateFunc();
             this.getTaskFunc();
+			this.$forceUpdate()
 		},
 		methods: {
           getNewNoticeFun(){
@@ -148,8 +150,6 @@
                 this.msg_en = ret.data[0].msg_en
 				this.istj = ret.data[0].istj
 				this.show = this.istj==1?true:false
-              }else{
-                uni.$u.toast(uni.$u.msg.requestTimeOut)
               }
             })
           },
@@ -167,8 +167,6 @@
                 this.gridList[6].content = ret.data.fullmoney
                 this.gridList[7].content = ret.data.tasktimeday
                 this.gridList[8].content = ret.data.lksumday
-              }else{
-                uni.$u.toast(uni.$u.msg.requestTimeOut)
               }
             })
           },
@@ -180,8 +178,6 @@
                 this.reguserList = ret.data.reguser
                 this.drawuserList = ret.data.drawuser
                 this.balluserList = ret.data.balluser
-              }else{
-                uni.$u.toast(uni.$u.msg.requestTimeOut)
               }
             })
           },
@@ -192,14 +188,14 @@
               if(ret && ret.code == 1)
               {
                 this.taskList = ret.data
-              }else{
-                uni.$u.toast(uni.$u.msg.requestTimeOut)
               }
             })
           },
-          link_href(url)
+          link_href(value)
           {
-            uni.$u.toast(url)
+			  console.log(value)
+			  this.$Router.push({name:'index_iframe',params:value})
+             //uni.$u.toast(url)
           }
 		}
 	}

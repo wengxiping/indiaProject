@@ -33,6 +33,11 @@ export default [
 	    path: '/pages/game/game',
 	    name: "game_index",
 		loginStatus:false
+	},{
+	    aliasPath: '/index_iframe',
+	    path: '/pages/index/iframe',
+	    name: "index_iframe",
+		loginStatus:false
 	},
 	{
 	    aliasPath: '/luckdraw_index',

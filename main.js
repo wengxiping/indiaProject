@@ -15,7 +15,7 @@ import minx from './minx.js'
 Vue.mixin(minx)
 const app = new Vue({
     ...App,
-	store
+	store,
 })
 // http拦截器，将此部分放在new Vue()和app.$mount()之间，才能App.vue中正常使用
 import httpInterceptor from '@/request/http.interceptor.js';
