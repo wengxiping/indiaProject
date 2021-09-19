@@ -12,7 +12,7 @@
         <view class="user-cell" v-else>
           <u-avatar :src="userInfo.avatar_thumb" size="118" :show-level="hasLogin" level-icon="/static/icon/level.png"></u-avatar>
           <text class="name">Hi，{{userInfo.user_nicename}}</text>
-          <image src="/static/icon/icon-edit.png" mode="aspectFit" class="edit-info"></image>
+          <!-- <image src="/static/icon/icon-edit.png" mode="aspectFit" class="edit-info"></image> -->
         </view>
 
       </view>

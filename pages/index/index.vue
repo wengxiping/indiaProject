@@ -88,7 +88,7 @@
 	export default {
 		data() {
 			return {
-        show: true,
+        show: false,
         notice: ['尊敬的各位用户，本应用将于2021.7.27更新，不便之处请海谅解'],
         gridList: [
           {
@@ -125,11 +125,15 @@
         balluserList:[],
         taskList:[],
         title_en:"",
-        msg_en:""
+        msg_en:"",
+		istj:0,
 	}
 },
-		onLoad() {
-            this.getNewNoticeFun();
+        onLoad() {
+			 this.getNewNoticeFun();
+        	 
+        },
+		onShow() {
             this.getUserInfoFunc();
             this.getRtuserdateFunc();
             this.getTaskFunc();
@@ -139,9 +143,11 @@
             uni.$u.api.getNewNotice().then(ret=>{
               if(ret && ret.code == 1)
               {
-                this.notice = [ret.data.title_en]
+                this.notice = [ret.data[0].title_en]
                 this.title_en = ret.data[0].title_en
                 this.msg_en = ret.data[0].msg_en
+				this.istj = ret.data[0].istj
+				this.show = this.istj==1?true:false
               }else{
                 uni.$u.toast(uni.$u.msg.requestTimeOut)
               }

@@ -35,7 +35,6 @@ const install = (Vue, vm) => {
 	Vue.prototype.$u.http.interceptor.response = (res) => {
 		// 如果把originalData设置为了true，这里得到将会是服务器返回的所有的原始数据
 		// 判断可能变成了res.statueCode，或者res.data.code之类的，请打印查看结果
-		//console.log(res)
 		return res
 		if(res.code == 200) {
 			// 如果把originalData设置为了true，这里return回什么，this.$u.post的then回调中就会得到什么

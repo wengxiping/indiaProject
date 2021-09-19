@@ -10,7 +10,7 @@ const getRtuserdateUrl="/api/Notice/api?api_name=get_ptuserdate";//首页取平�
 const getuserinfoUrl ="/api/Usercode/api?api_name=get_userinfo";//首页获得个人收益信息
 //转盘
 const getDrawinfoUrl ="/api/Notice/api?api_name=get_drawinfo";//获取转盘信息
-const getStartDrawtUrl="/api/usercode/api?api_name=get_startdrawt";//开始抽奖
+const getStartDrawtUrl="/api/usercode/api?api_name=get_startdraw";//开始抽奖
 const getMydrawinfoUrl="/api/usercode/api?api_name=get_mydrawinfo";//取我的转盘信息
 //下注游戏
 const getBallconfigUrl="api/Notice/api?api_name=get_ballconfig";//获取下注信息
@@ -28,8 +28,10 @@ const setAddmybanknoUrl = "/api/usercode/api?api_name=set_addmybankno"; //添加
 const getMyczlistUrl = "/api/usercode/api?api_name=get_myczlist"; //充值提现记录
 
 const getAddmlistUrl="/api/usercode/api?api_name=get_addmlist";//获取基金列表
-
-
+const setBuyaddmUrl="/api/usercode/api?api_name=set_buyaddm";//购买基金
+const getMyadmUrl = "api/usercode/api?api_name=get_myadm";//我的余额宝
+const getMybulistUrl = "api/usercode/api?api_name=get_mybulist";//我的购买记录
+const setMyzfpdUrl ="api/usercode/api?api_name=set_myzfpd";//支付密码设置
 const install = (Vue, vm) => {
 
 	let register = (params = {}) => vm.$u.post(registerUrl, params);
@@ -60,9 +62,12 @@ const install = (Vue, vm) => {
 	let setAddmybankno= (params = {}) => vm.$u.get(setAddmybanknoUrl,params);
 	let getMyczlist = (params = {}) => vm.$u.get(getMyczlistUrl,params);
 	let getAddmlist = (params = {}) => vm.$u.get(getAddmlistUrl,params);
-
-
-	vm.$u.api = {getAddmlist,getVipInfo,setBuyvip,getMyinfo,getMybanklist,setAddmymoney,getMyczlist,setAddmybankno,setMyoutmoney,register, login,getPhoneCode,getNewNotice,getTasklist,getRtuserdate,getuserinfo,getDrawinfo,getStartDrawt,getMydrawinfo,getBallconfig,getBallzjlist,getMyballlist,setMyball};
+	
+	let getMyadm = (params = {}) => vm.$u.get(getMyadmUrl,params);
+	let getMybulist= (params = {}) => vm.$u.get(getMybulistUrl,params);
+    let setBuyaddm= (params = {}) => vm.$u.get(setBuyaddmUrl,params);
+	let setMyzfpd= (params = {}) => vm.$u.get(setMyzfpdUrl,params);
+	vm.$u.api = {setMyzfpd,setBuyaddm,getMybulist,getMyadm,getAddmlist,getVipInfo,setBuyvip,getMyinfo,getMybanklist,setAddmymoney,getMyczlist,setAddmybankno,setMyoutmoney,register, login,getPhoneCode,getNewNotice,getTasklist,getRtuserdate,getuserinfo,getDrawinfo,getStartDrawt,getMydrawinfo,getBallconfig,getBallzjlist,getMyballlist,setMyball};
 }
 
 export default {

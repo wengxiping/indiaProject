@@ -1,22 +1,380 @@
 <template>
-	<view>
+  <view>
+    <view class="game-top">
+      <image src="/static/game-bg.png" mode="widthFix" class="top-image"></image>
+      <view class="left-info">
+        <text class="text">Period</text>
+        <text class="small">20210310281</text>
+      </view>
+      <view class="right-info">
+        <text class="text">Count Down</text>
+        <view class="u-margin-top-8">
+          <u-count-down :timestamp="timestamp" :show-hours="false" color="#FF5533" separator-color="#ffffff" height="40" @end="cutdownEnd"></u-count-down>
+        </view>
+      </view>
+    </view>
+    <view class="g-list">
+      <view class="g-top">
+        <view class="gbox" @tap="setMyballFunc(index+1,false)" v-for="(item,index) in 3" :key="index">
+          <image :src="`/static/g-c${index+1}.png`" mode="scaleToFill" class="image"></image>
+          <text class="text">JOIN GREEN</text>
+        </view>
+      </view>
+      <view class="g-foot">
+        <view class="g-cell" v-for="(item, index) in numberData" :key="index" @tap="setMyballFunc(item,true)">
+          <text class="text">{{ item.nums }}</text>
+          <image :src="`/static/ag${item.btype}.png`" mode="scaleToFill" class="image"></image>
+        </view>
+      </view>
+      <view class="rginfo">
+        <text class="text">Historical record Query</text>
+      </view>
+    </view>
+    <!-- 中奖记录 -->
+    <view class="info-box">
+      <view class="title">
+        <image src="/static/icon/line.png" mode="aspectFit" class="line"></image>
+        <text class="text">中奖记录</text>
+      </view>
+      <view class="record-list">
+        <view class="cell u-line-1" v-for="(item, index) in getMyballlist" :key="index">
+          <text>恭喜{{item.username}}，用户获得{{item.ballmoney}}卢比大奖</text>
+        </view>
+      </view>
+    </view>
+    <!-- 投注记录 -->
+    <view class="info-box">
+      <view class="title">
+        <image src="/static/icon/line.png" mode="aspectFit" class="line"></image>
+        <text class="text">投注记录</text>
+      </view>
+      <view class="in-table">
+        <view class="in-th">
+          <text class="text">PREIOD</text>
+          <text class="text">PRICE</text>
+          <text class="text">NUMBER</text>
+          <text class="text">RESULT</text>
+        </view>
+        <view class="in-td">
+          <view class="cell" v-for="(item, index) in getBallzjlist" :key="index">
+            <view class="c-td">
+              <text class="text">{{item.drawno}}</text>
+            </view>
+            <view class="c-td">
+              <text class="text">{{item.ballmoney}}</text>
+            </view>
+            <view class="c-td">
+              <text class="text">{{item.ballsum}}</text>
+            </view>
+            <view class="c-td">
+              <text style="background-color: #866FFF;" class="rint"></text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="gap"></view>
+	
+	<u-modal v-model="show" title="是否需要下注？" :show-cancel-button="true" cancel-text="在考虑一下" confirm-text="立即下注" @confirm="confirmSetMyballFunc">
+		<view class="slot-content">
+			<view class="number-label">你选择的号码是:
+			<view v-for="(item,index) in chooseNum" :class="['number-label-text',indexColumn==1?'number-label-text-color1':(indexColumn==2?'number-label-text-color2':'number-label-text-color3')]" :key="index">{{item}}</view>
+			</view>
+			<view class="number-money">本次下注需要支付金额是:<span class="moneyColor">{{content}}</span></view>
+		</view>
 		
-	</view>
+	</u-modal>
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				
-			}
+  export default {
+    data() {
+      return {
+        timestamp: 0,
+		getMyballlist:[],
+		getBallzjlist:[],
+		numberData:[],
+		content:'',
+		show:false,
+		chooseNum:"",
+		indexColumn:1,
+		barllIdArr:[]
+      };
+    },
+	onLoad() {
+		this.initFunc()
+	},
+    methods:{
+		initFunc(){
+			this.getBallConfigFunc();
+			this.getBallzjlistFunc();
+			this.getMyballlistFunc();
 		},
-		methods: {
-			
-		}
-	}
+      getBallConfigFunc(){
+         uni.$u.api.getBallconfig({}).then(ret=>{
+			 let nowtimestap = Date.parse(new Date())/1000
+            if(ret && ret.code == 1){
+				this.timestamp = nowtimestap>=ret.data.nextkjtime?0:ret.data.nextkjtime-nowtimestap
+				this.numberData = ret.data.allball
+				this.content = ret.data.xzmoney
+				console.log(this.numberData)
+            }else{
+
+            }
+         })
+      },
+      getBallzjlistFunc(){
+        uni.$u.api.getBallzjlist({}).then(ret=>{
+          if(ret && ret.code == 1){
+              console.log(ret)
+			  this.getBallzjlist = ret.data.zjball
+          }else{
+
+          }
+        })
+      },
+      getMyballlistFunc(){
+		if(!this.loginStatus)return
+        uni.$u.api.getMyballlist({}).then(ret=>{
+			console.log(ret)
+          if(ret && ret.code == 1){
+              this.getMyballlist = ret.data.zjball
+          }
+        })
+      },
+      setMyballFunc(value,type){
+		  this.indexColumn = type==false ? value :value.btype
+		  let ballNumArr=[]
+		  if(type == true){
+			  ballNumArr=[value.nums]
+			  this.barllIdArr=[value.ballid]
+		  }else{
+			 this.numberData.map((item)=>{
+				  if(item.btype == value){
+					  this.barllIdArr.push(item.ballid)
+					  ballNumArr.push(item.nums)
+				  }
+			  })
+		  }
+		  this.chooseNum = ballNumArr.filter(function(item){return item && item.trim()})
+		 console.log(ballNumArr,this.barllIdArr)
+		 this.show = true
+      },
+	  confirmSetMyballFunc(){
+		 if(this.barllIdArr.length>0){
+			 uni.$u.api.setMyball({ballid:this.barllIdArr}).then(ret=>{
+			   uni.$u.toast(ret.msg)
+			 })
+		 }else{
+			 uni.$u.toast(uni.$u.msg.requestTimeOut)
+		 }
+		  return;
+		  
+	  },
+	  cutdownEnd()
+	  {
+		  //console.log('here')
+		  this.initFunc()
+	  }
+    }
+  }
 </script>
 
-<style>
-
+<style lang="scss">
+	.slot-content{
+		padding: 20rpx 0;display: flex;justify-content: center;align-items: center;flex-direction: column;
+		.number-money{font-size: 28rpx;
+		.moneyColor{font-size: 32rpx;color: red;}
+		}
+		
+		.number-label{
+			padding: 20rpx 0;display: flex;justify-content: flex-start;align-items: center;
+			.number-label-text{margin-left: 10rpx;color: #FFFFFF;font-size: 28rpx;padding: 10rpx;border-radius: 50%;width: 50rpx;height: 50rpx;display: flex;justify-content: center;align-items: center;}
+			.number-label-text-color1{
+				background-color: #7864E6;
+			}
+			.number-label-text-color2{
+				background-color: #FF5540;
+			}
+			.number-label-text-color3{
+				background-color: #00B8FA;
+			}
+		}
+	}
+.game-top {
+  display: flex;
+  padding-top: 88rpx;
+  height: 204rpx;
+  position: relative;
+  padding-left: 26rpx;
+  padding-right: 26rpx;
+  justify-content: space-between;
+  .right-info {
+    @extend .left-info;
+    align-items: flex-end;
+  }
+  .text {
+    font-size: 28rpx;
+    line-height: 40rpx;
+    color: #FFFFFF;
+  }
+  .left-info {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    .small {
+      font-size: 33rpx;
+      color: #FFFFFF;
+      line-height: 46rpx;
+      margin-top: 5rpx;
+    }
+  }
+  .top-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 204rpx;
+    z-index: 0;
+  }
+}
+.g-list {
+  display: flex;
+  flex-direction: column;
+  background-color: #FFFFFF;
+  .g-top {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .gbox {
+    display: flex;
+    position: relative;
+    width: 252rpx;
+    height: 140rpx;
+    .text {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      font-size: 26rpx;
+      color: #FFFFFF;
+      @include flexCenter(2);
+    }
+  }
+  .g-foot {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 10rpx;
+    width: 100%;
+    box-sizing: border-box;
+    .g-cell {
+      width: 20%;
+      width: 146rpx;
+      height: 146rpx;
+      @include flexCenter(2);
+      position: relative;
+      .text {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 1;
+        @include flexCenter(2);
+        width: 100%;
+        height: 100%;
+        color: #FFFFFF;
+        font-size: 42rpx;
+      }
+    }
+  }
+  .rginfo {
+    @include flexCenter(0);
+    justify-content: flex-end;
+    padding: 28rpx 32rpx;
+    .text {
+      font-size: 26rpx;
+      color: #9B9B9B;
+      line-height: 37rpx;
+    }
+  }
+}
+.info-box {
+  margin-top: $gutter;
+  background-color: #FFFFFF;
+}
+.record-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 $gutter 8rpx;
+  .cell {
+    background-color: rgba($color: #FF5533, $alpha: 0.1);
+    border-radius: 14rpx;
+    color: #FF5533;
+    font-size: 24rpx;
+    height: 66rpx;
+    @include flexCenter(2);
+    margin-bottom: 20rpx;
+  }
+}
+.in-table {
+  padding: 0 $gutter 28rpx;
+  display: flex;
+  flex-direction: column;
+  .in-th {
+    @include flexCenter(0);
+    height: 76rpx;
+    background: linear-gradient(to right, #FF62A5, #FF8961);
+    border-radius: 14rpx;
+    .text {
+      flex: 1;
+      display: block;
+      border-right: 1rpx solid #FFFFFF;
+      height: 30rpx;
+      font-size: 26rpx;
+      color: #FFFFFF;
+      text-align: center;
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+  .in-td {
+    @include flexCenter(0);
+    flex-direction: column;
+    width: 100%;
+    .cell {
+      background-color: #F8F8F8;
+      height: 88rpx;
+      width: 100%;
+      flex: 1;
+      display: flex;
+      border-radius: 14rpx;
+      &:nth-child(2n-1) {
+        background-color: #FFFFFF;
+      }
+      .c-td {
+        flex: 1;
+        text-align: center;
+        height: 88rpx;
+        @include flexCenter(2);
+        .text {
+          display: flex;
+          text-align: center;
+          justify-content: center;
+          border-right: 1rpx solid #E6E6E6;
+          flex: 1;
+          line-height: 30rpx;
+        }
+        .rint {
+          width: 32rpx;
+          height: 32rpx;
+          display: block;
+          margin: 0 auto;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}
 </style>

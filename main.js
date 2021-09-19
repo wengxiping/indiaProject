@@ -11,7 +11,8 @@ import vuexStore from "./store/$u.mixin"
 Vue.mixin(vuexStore);
 Vue.config.productionTip = false
 App.mpType = 'app'
-
+import minx from './minx.js'
+Vue.mixin(minx)
 const app = new Vue({
     ...App,
 	store

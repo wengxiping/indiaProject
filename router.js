@@ -6,7 +6,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-	if(to.login && !uni.getStorageSync("token"))
+	if(to.loginStatus && !uni.getStorageSync("token"))
 	{
 		router.push({name: 'login'})
 	}
